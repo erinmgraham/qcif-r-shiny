@@ -13,6 +13,6 @@ This lesson assumes you have `R` and `RStudio` installed on your computer.
 - Download and install the [latest version of R](https://cran.r-project.org/).
 - Download and install [RStudio](https://posit.co/downloads/).
 - Install R Packages:
-  - [shinyr](https://cran.r-project.org/web/packages/shiny/index.html)
+  - [shiny](https://cran.r-project.org/web/packages/shiny/index.html)
   - [shinythemes](https://cran.r-project.org/web/packages/shinythemes/index.html)
   - [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html)
