@@ -445,6 +445,12 @@ Within that project, create a folder called data and download or move
 the lesson data into that folder. Next, create a new script called
 <code>app.R</code> and save it in the same directory as your
 <code>.Rproj</code> file.</p>
+<p>Note a Shiny project can also be created in RStudio using the
+<code>New Project Wizard</code> and selecting
+<code>Shiny Application</code>. This creates a project with a pre-built
+Shiny app in an <code>app.R</code> script. While this is a quick way to
+get started once you are familiar with Shiny, here we will build the app
+from scratch so learners can see each part as it is introduced.</p>
 <div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -472,20 +478,14 @@ return to this later.</p>
 </div>
 </div>
 </div>
-<p>A Shiny project can be created in RStudio using the New Project
-Wizard and selecting <code>Shiny Application</code>. This creates a
-project with a pre-built Shiny app in an <code>app.R</code> script.
-While this is a quick way to get started once you are familiar with
-Shiny, here we will build the app from scratch so learners can see each
-part as it is introduced.</p>
 </section><section><h2 class="section-heading" id="the-anatomy-of-a-shiny-app">The Anatomy of a Shiny app<a class="anchor" aria-label="anchor" href="#the-anatomy-of-a-shiny-app"></a>
 </h2>
 <hr class="half-width">
-<p>A Shiny app has three essential parts: a ui, a server, and a call to
-shinyApp() that connects them. Most apps also include setup code at the
-top of the script to load packages and prepare data. Shown here
-together, code below will run and produce a blank app. We will introduce
-each part in turn and explain how they work.</p>
+<p>A Shiny app has three essential parts: a user interface, a server,
+and a call to shinyApp() that connects them. Most apps also include
+setup code at the top of the script to load packages and prepare data.
+Shown here together, code below will run and produce a blank app. We
+will introduce each part in turn and explain how they work.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -501,27 +501,6 @@ each part in turn and explain how they work.</p>
 <span></span>
 <span><span class="co"># 4. Call shinyApp() to run your app</span></span>
 <span><span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></code></pre>
-</div>
-<div id="callout2" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
-<p>How do I actually run this?</p>
-<p>Once you have saved your app in a file called <code>app.R</code>, you
-can run it in RStudio by clicking the <strong>Run App</strong> button at
-the top of the editor, or by running the script as you would any other R
-code.</p>
-<p>When the app is running: - A Shiny window will open showing your app
-- Your R console will be busy while the app is active</p>
-<p>To stop the app, click the <strong>Stop</strong> button in RStudio or
-close the Shiny window.</p>
-<p>If you make changes to the code, stop the app first, then re‑run it
-to see the updated version.</p>
-</div>
-</div>
 </div>
 <p>First, <strong>the setup</strong>.</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -608,6 +587,30 @@ names, it is standard practice to call them <code>ui</code> and
 </div>
 <p>This final line runs the app by linking the <code>ui</code> and
 <code>server</code>.</p>
+<div id="callout2" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>How do I actually run this?</p>
+<p>Once you have saved your app in a file called <code>app.R</code>, you
+can run it in RStudio by clicking the <strong>Run App</strong> button at
+the top of the editor, or by running the script as you would any other R
+code.</p>
+<p>When the app is running: - A Shiny window will open showing your app
+- Your R console will be busy while the app is active</p>
+<p>To stop the app, click the <strong>Stop</strong> button in RStudio or
+close the Shiny window.</p>
+<p>If you make changes to the code, stop the app first, then re‑run it
+to see the updated version.</p>
+</div>
+</div>
+</div>
+<p>We now have a basic Shiny app and understand how its main parts fit
+together. Although the app does not yet respond to user input, this
+structure is the foundation on which all Shiny apps are built.</p>
 <p>Be sure to save the <code>app.R</code> script.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
@@ -770,7 +773,7 @@ to the UI using a Shiny UI function.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of heading or
 paragraph may differ.</p>
@@ -851,7 +854,7 @@ application.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of content may
 differ.</p>
@@ -1398,7 +1401,7 @@ the code the function belongs to.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>One possible solution:</p>
 <ul>
@@ -1643,7 +1646,7 @@ with the reactive expression <code>summary_data()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below.</p>
 <div class="codewrapper sourceCode" id="cb6">
