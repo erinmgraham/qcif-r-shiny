@@ -36,10 +36,8 @@ ui <- fluidPage(
 )
 ```
 
-```output
 ![](fig/02_shiny_app_hello_crop.png){alt='Mostly blank white page displaying the text hello world'}
 
-```
 
 Any text placed in the UI is displayed on the page. Behind the scenes, Shiny is still generating HTML to describe that content.
 
