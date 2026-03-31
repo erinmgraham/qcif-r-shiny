@@ -47,6 +47,8 @@ Take some time to explore these example apps built with Shiny.
 
 Let's start by creating a new project called `shiny-qcif`. Within that project, create a folder called data and download or move the lesson data into that folder. Next, create a new script called `app.R` and save it in the same directory as your `.Rproj` file.
 
+Note a Shiny project can also be created in RStudio using the `New Project Wizard` and selecting `Shiny Application`. This creates a project with a pre-built Shiny app in an `app.R` script. While this is a quick way to get started once you are familiar with Shiny, here we will build the app from scratch so learners can see each part as it is introduced.
+
 ::::::::::::::::::::::::::::::::::::: callout
 
 Although you can put a Shiny app into any type of file initially, once you decide to use it with a [Shiny Server], it's important to note the server will only recognize one of two file configurations:
@@ -61,11 +63,9 @@ This is not to say you cannot place **parts of your app's code** in different R 
 
 ::::::::::::::::::::::::::::::::::::: 
 
-A Shiny project can be created in RStudio using the New Project Wizard and selecting `Shiny Application`. This creates a project with a pre-built Shiny app in an `app.R` script. While this is a quick way to get started once you are familiar with Shiny, here we will build the app from scratch so learners can see each part as it is introduced.
-
 ## The Anatomy of a Shiny app
 
-A Shiny app has three essential parts: a ui, a server, and a call to shinyApp() that connects them. Most apps also include setup code at the top of the script to load packages and prepare data. Shown here together, code below will run and produce a blank app. We will introduce each part in turn and explain how they work.
+A Shiny app has three essential parts: a user interface, a server, and a call to shinyApp() that connects them. Most apps also include setup code at the top of the script to load packages and prepare data. Shown here together, code below will run and produce a blank app. We will introduce each part in turn and explain how they work.
 
 
 ``` r
@@ -82,22 +82,6 @@ server <- function(input, output) {}
 shinyApp(ui = ui, server = server)
 ```
 
-::::::::::::::::::::::::::::::::::::: callout 
-How do I actually run this?
-
-Once you have saved your app in a file called `app.R`, you can run it in RStudio
-by clicking the **Run App** button at the top of the editor, or by running the
-script as you would any other R code.
-
-When the app is running:
-- A Shiny window will open showing your app
-- Your R console will be busy while the app is active
-
-To stop the app, click the **Stop** button in RStudio or close the Shiny window.
-
-If you make changes to the code, stop the app first, then re‑run it to see the
-updated version.
-::::::::::::::::::::::::::::::::::::: 
 
 First, **the setup**.
 
@@ -166,6 +150,22 @@ shinyApp(ui = ui, server = server)
 ```
 
 This final line runs the app by linking the `ui` and `server`.
+
+::::::::::::::::::::::::::::::::::::: callout 
+How do I actually run this?
+
+Once you have saved your app in a file called `app.R`, you can run it in RStudio by clicking the **Run App** button at the top of the editor, or by running the script as you would any other R code.
+
+When the app is running:
+- A Shiny window will open showing your app
+- Your R console will be busy while the app is active
+
+To stop the app, click the **Stop** button in RStudio or close the Shiny window.
+
+If you make changes to the code, stop the app first, then re‑run it to see the updated version.
+::::::::::::::::::::::::::::::::::::: 
+
+We now have a basic Shiny app and understand how its main parts fit together. Although the app does not yet respond to user input, this structure is the foundation on which all Shiny apps are built.
 
 Be sure to save the `app.R` script.
 
