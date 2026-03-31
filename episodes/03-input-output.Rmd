@@ -182,6 +182,7 @@ We now modify the server to generate the output defined in the user interface.
 To create our table, we use functions from the tidyverse to filter the data based on the region selected by the user, using the value stored in `input$region_select`, and then select the relevant columns to display in the output table.
 
 Specifically, we want to:
+
 - filter() the data to the selected region.
 - group_by() to group rows by occupation.
 - summarise() to combine duplicate occupations by summing `occupation_count_2041` so we return one row per occupation and drop the grouping.
