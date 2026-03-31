@@ -689,15 +689,9 @@ outputs.</p>
 <span>  <span class="st">"Hello world"</span>                                       <span class="co"># this is new!</span></span>
 <span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>![](fig/02_shiny_app_hello_crop.png){alt='Mostly blank white page displaying the text hello world'}
-</code></pre>
-</div>
-<p>Any text placed in the UI is displayed on the page. Behind the
+<figure><img src="fig/02_shiny_app_hello_crop.png" alt="Mostly blank white page displaying the text hello world" class="figure mx-auto d-block"></figure><p>Any text placed in the UI is displayed on the page. Behind the
 scenes, Shiny is still generating HTML to describe that content.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -719,7 +713,7 @@ that explicitly create HTML elements.</p>
 correspond to HTML tags. For example, the page below will have one big
 header (h1), a line break (br), and a smaller header (h3). Note how
 every element is separated by a comma.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -773,7 +767,7 @@ to the UI using a Shiny UI function.</p>
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of heading or
 paragraph may differ.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -814,7 +808,7 @@ below.</p>
 <figure><img src="fig/sidebar.png" alt="Sidebar Layout from Mastering Shiny" class="figure mx-auto d-block"></figure><p>To create this structure in our user interface, we start with a blank
 <code>fluidPage()</code> and add a title panel and a sidebar layout,
 which contains a sidebar panel and a main panel.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -854,7 +848,7 @@ application.</p>
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of content may
 differ.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -983,7 +977,7 @@ dropdown menu).</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Examples of variables that could be controlled by a user include
 <code>region</code>, <code>suburb</code>, and
@@ -1189,11 +1183,15 @@ interface.</p>
 the data based on the region selected by the user, using the value
 stored in <code>input$region_select</code>, and then select the relevant
 columns to display in the output table.</p>
-<p>Specifically, we want to: - filter() the data to the selected region.
-- group_by() to group rows by occupation. - summarise() to combine
-duplicate occupations by summing <code>occupation_count_2041</code> so
-we return one row per occupation and drop the grouping. - arrange() the
-data in descending order.</p>
+<p>Specifically, we want to:</p>
+<ul>
+<li>filter() the data to the selected region.</li>
+<li>group_by() to group rows by occupation.</li>
+<li>summarise() to combine duplicate occupations by summing
+<code>occupation_count_2041</code> so we return one row per occupation
+and drop the grouping.</li>
+<li>arrange() the data in descending order.</li>
+</ul>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1253,7 +1251,7 @@ names, and no longer includes the occupation count column.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below.</p>
 <p>Here, the <code>select()</code> function is used to drop the
@@ -1395,7 +1393,7 @@ the code the function belongs to.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>One possible solution:</p>
 <ul>
@@ -1640,7 +1638,7 @@ with the reactive expression <code>summary_data()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below.</p>
 <div class="codewrapper sourceCode" id="cb6">
