@@ -24,6 +24,7 @@ knitr::opts_chunk$set(fig.height = 6,
 - Use reactive expressions to separate and reuse server logic
 - Refactor an app to make it easier to extend and maintain
 
+
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Our App So Far
@@ -190,7 +191,7 @@ server <- function(input, output) {
       arrange(desc(occupation_count_2041))
   })  
 
-  ...
+  # code omitted for teaching purposes
 ```
 
 Because `summary_data` is reactive, we call it like a function with no arguments: `summary_data()`. We can now reuse it in multiple outputs. For example, the table output becomes: 
@@ -214,7 +215,7 @@ server <- function(input, output) {
 	  summary_data()
 	})
 
-	...
+	# code omitted for teaching purposes
 ```
 
 Writing the server logic in terms of `reactive()` expressions means we can reuse the summary_data reactive value elsewhere, like in the server logic for the plot output.
@@ -231,7 +232,7 @@ One possible solution is shown below.
 # 3. Define a server
 server <- function(input, output) {
   
-	...
+	# code omitted for teaching purposes
 
 	output$occupation_table <- renderTable({                     
 	  summary_data()
