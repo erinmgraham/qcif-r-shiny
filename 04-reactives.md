@@ -1,0 +1,267 @@
+---
+title: "Organising Server Logic with Reactive Expressions"
+teaching: 40
+exercises: 0
+---
+
+
+
+:::::::::::::::::::::::::::::::::::::: questions 
+
+- Why does placing all logic inside rendering functions become limiting?
+- How can we reuse server logic across multiple outputs in a Shiny app?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Identify repeated server logic in a Shiny app
+- Use reactive expressions to separate and reuse server logic
+- Refactor an app to make it easier to extend and maintain
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Our App So Far
+
+We now have a simple app that displays the top occupations in a Brisbane City Council region. Our users can select a region using the `selectInput()` function and display the corresponding occupations with a `tableOutput()`.
+
+Notice all server logic is currently placed directly inside `renderTable()`, , meaning the same data preparation would need to be repeated for any additional outputs. This works well for a simple app, but becomes harder to manage as apps grow. 
+
+What if we want to add another input or output?
+
+::::::::::::::::::::::::::::::::::::: challenge 
+Challenge: Object types for input and output
+
+Suppose we want to extend the app by adding a **plot** showing top occupations by
+**region**.
+
+Which input and output-related functions would we need to:
+1. Let the user select a region?
+2. Display a plot in the app?
+
+You do not need to write any code yet but do identify what part of the code the function belongs to.
+
+::::::::::::::: solution
+One possible solution:
+
+- Input (UI): `selectInput()` to choose a region  
+- Output placeholder (UI): `plotOutput()`  
+- Output rendering (server): `renderPlot()`
+
+:::::::::::::::
+::::::::::::::::::::::::::::::::::::: 
+
+Before introducing any new Shiny concepts, let’s extend the app using the approach we have used so far.
+
+## Extending the app without reactive expressions
+
+We can extend the app using the approach we already know by adding an output to our app that will produce a plot of top occupations by region.
+
+We already have the input as the region selected. Recall Shiny outputs need an `*Output()` function defined in the user interface and a `render*()` function for the server that matches the corresponding output.
+
+### Additional output - user interface
+
+Let's add a `plotOutput()` to our app that will display the top occupations of the selected regions. This will go in our `mainPanel()`:
+
+
+``` r
+# 2. Define a User Interface
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+                inputId = "region_select",
+                label = "Choose a region", 
+                choices = unique(bcc$region)
+                )
+			),
+    mainPanel(
+      tableOutput(outputId = "occupation_table"),
+      plotOutput(outputId = "occupation_plot")        # this is new!
+    )
+  )
+)
+```
+
+Run the app again and notice the plot does not appear. This is expected: we have defined the `plotOutput()` placeholder in the UI, but we have not updated the server. 
+
+### Additional output - server with `render*`
+
+Now let us add a `renderPlot()` object to plot the occupations by region. 
+
+We want to prepare the data the same way we prepared the data for the `occupation_table` and then produce a plot. Copy‑paste the same `filter` → `group` → `summarise` → `arrange` pipeline you used in `renderTable()`. Then add code for the plot:
+
+- ggplot() to create the plot and map variables to the x and y axes, using reorder() to control the order of categories.
+- geom_col() to draw a bar chart.
+- coord_flip() to flip the axes so long labels are easier to read.
+- labs() to add axis labels.
+- theme_minimal() to apply a simple theme and increase the text size.
+
+
+``` r
+# 3. Define a server
+server <- function(input, output) {
+  
+    output$occupation_table <- renderTable({
+      bcc %>%
+        filter(region == input$region_select) %>%
+        group_by(occupation) %>%
+        summarise(
+          occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+          .groups = "drop") %>%
+        arrange(desc(occupation_count_2041))
+    })
+    
+    output$occupation_plot <- renderPlot({            # this is new!
+      bcc %>%
+        filter(region == input$region_select) %>%
+        group_by(occupation) %>%
+        summarise(
+          occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+          .groups = "drop") %>%
+        arrange(desc(occupation_count_2041)) %>%
+        ggplot(aes(x = reorder(occupation, occupation_count_2041), 
+                   y = occupation_count_2041)) +
+          geom_col(fill = "steelblue") +
+          coord_flip() +
+          labs(x = "Occupation", y = "Forecast employment (2041)") +
+          theme_minimal(base_size = 17)
+    })
+}
+```
+
+Run the app again. You should now see two outputs, both of them updating when the user changes a selection.
+
+Take a moment to compare the code inside `renderTable()` and `renderPlot()`. What parts of the logic appear in both places?
+
+::::::::::::::::::::::::::::::::::::: discussion 
+Discussion: Notice the pattern
+
+Take a close look at the server code. Notice that each output repeats a similar pattern to prepare the data: filter, group, summarise, and arrange.
+
+What would happen if we wanted to change the filtering rule for both outputs later?
+::::::::::::::::::::::::::::::::::::: 
+
+## Reactivity
+
+At its core, Shiny is built around **reactivity**. Reactivity means that when a value changes, anything that depends on it is automatically updated. 
+
+In our app, `output$occupation_table` uses the current value of `input$region_select`. When the user changes the selected region, Shiny re-runs the code that depends on `input$region_select`, and the table updates.
+
+This is different from how ordinary R objects behave. For example:
+
+
+``` r
+x <- 5
+y <- x+10
+x <- 10
+y
+```
+
+Note that `y` is still 15, because R does not automatically recompute `y` when `x` changes.
+
+In the next section, we introduce `reactive()` expressions, which will allow us to compute shared results once and reuse them across outputs.
+
+### Additional output - server with `reactive()` expressions
+
+So far, we have placed all of our data preparation directly inside each `render*()` function. This works, but as soon as we have multiple outputs (for example, a table and a plot), we end up repeating the same data preparation steps in multiple places.
+
+To avoid this repetition, we can move the shared data preparation into a `reactive()` expression. A **reactive expression** is like a reusable "recipe" that is automatically re-run when its inputs change.
+
+Here, we create a reactive expression called `summary_data` that prepares the occupations for the selected region. It’s common to name reactives as nouns, not verbs, because they represent values
+
+
+``` r
+# 3. Define a server
+server <- function(input, output) {
+
+  summary_data <- reactive({                     # this is changed!
+    bcc %>%
+      filter(region == input$region_select) %>%
+      group_by(occupation) %>%
+      summarise(
+        occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+        .groups = "drop"
+        ) %>%
+      arrange(desc(occupation_count_2041))
+  })  
+
+  # code omitted for teaching purposes
+```
+
+Because `summary_data` is reactive, we call it like a function with no arguments: `summary_data()`. We can now reuse it in multiple outputs. For example, the table output becomes: 
+
+
+``` r
+# 3. Define a server
+server <- function(input, output) {
+  
+  summary_data <- reactive({
+    bcc %>%
+        filter(region == input$region_select) %>%
+        group_by(occupation) %>%
+        summarise(
+          occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+          .groups = "drop"
+        ) %>%
+        arrange(desc(occupation_count_2041))
+  })
+
+	output$occupation_table <- renderTable({             # this is changed!        
+	  summary_data()
+	})
+
+	# code omitted for teaching purposes
+```
+
+Writing the server logic in terms of `reactive()` expressions means we can reuse the summary_data reactive value elsewhere, like in the server logic for the plot output.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+Challenge: Reuse `summary_data()` in the plot output
+
+Modify the app by replacing the data preparation code inside the plot with the reactive expression `summary_data()`.
+
+::::::::::::::: solution
+One possible solution is shown below.
+
+
+``` r
+# 3. Define a server
+server <- function(input, output) {
+  
+	# code omitted for teaching purposes
+
+	output$occupation_table <- renderTable({                     
+	  summary_data()
+	})
+  
+  output$occupation_plot <- renderPlot({              # solution
+    summary_data() %>%                                # reuse reactive()
+      ggplot(aes(x = reorder(occupation, occupation_count_2041), 
+                 y = occupation_count_2041)) +
+      geom_col(fill = "steelblue") +
+      coord_flip() +
+      labs(x = "Occupation", y = "Forecast employment (2041)") +
+      theme_minimal(base_size = 17)
+  })
+}
+```
+:::::::::::::::
+::::::::::::::::::::::::::::::::::::: 
+
+Before introducing reactive expressions, we extended the app by adding a second output and placing all of the required data processing directly inside renderPlot(). While this approach works, it required repeating the same data preparation steps—filtering, grouping, summarising, and arranging—inside multiple rendering functions.
+
+This duplication makes apps harder to maintain as they grow. Any change to the data preparation logic would need to be made in every output that depends on it. By using reactive() expressions, we can compute shared results once and reuse them across multiple outputs, making our server code simpler, clearer, and easier to extend.
+
+From here, people usually look at improving layout and styling, organising larger apps with modules, or figuring out how to share their app. We didn’t cover those today, but now you have the foundation to explore them.
+
+::::::::::::::::::::::::::::::::::::: keypoints 
+
+- Reactivity is central to how Shiny apps update in response to changes in user input.
+- Code inside `render*()` functions is automatically re‑run when its reactive dependencies change.
+- Repeating the same data preparation logic across multiple outputs can make apps harder to maintain.
+- `reactive()` expressions allow shared server logic to be computed once and reused across multiple outputs.
+     
+::::::::::::::::::::::::::::::::::::::::::::::::
