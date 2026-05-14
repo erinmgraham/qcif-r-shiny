@@ -14,5 +14,5 @@ This lesson assumes you have `R` and `RStudio` installed on your computer.
 - Download and install [RStudio](https://posit.co/downloads/).
 - Install R Packages:
   - [shiny](https://cran.r-project.org/web/packages/shiny/index.html)
-  - [shinythemes](https://cran.r-project.org/web/packages/shinythemes/index.html)
+  - [bslib](https://cran.r-project.org/web/packages/bslib/index.html)
   - [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html)
