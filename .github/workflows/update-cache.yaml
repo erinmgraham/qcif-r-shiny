@@ -97,6 +97,14 @@ jobs:
           use-public-rspm: true
           install-r: false
 
+      - name: Debug R environment
+        run: |
+          Rscript -e 'sessionInfo()'
+          Rscript -e 'cat("repos:\n"); print(getOption("repos"))'
+          Rscript -e 'cat("yaml installed? ", requireNamespace("yaml", quietly = TRUE), "\n", sep="")'
+          Rscript -e 'cat("rmarkdown installed? ", requireNamespace("rmarkdown", quietly = TRUE), "\n", sep="")'
+          Rscript -e 'cat("renv version: "); if (requireNamespace("renv", quietly = TRUE)) print(as.character(packageVersion("renv"))) else cat("not installed\n")'
+
       - name: "Update {renv} deps and determine if a PR is needed"
         id: update
         uses: carpentries/actions/update-lockfile@main
