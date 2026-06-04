@@ -11,7 +11,7 @@ on:
         default: 'Maintainer (via GitHub)'
       force-renv-init:
         description: 'Force full lockfile update?'
-        required: false
+        required: true
         default: false
         type: boolean
       update-packages:
