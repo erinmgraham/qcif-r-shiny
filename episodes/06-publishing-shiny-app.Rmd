@@ -8,7 +8,8 @@ exercises: 15
 source("setup.R")
 knitr::opts_chunk$set(fig.height = 6, 
                       warning = FALSE, 
-                      message = FALSE, eval = FALSE)
+                      message = FALSE, 
+					  eval = FALSE)
 ```
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -44,24 +45,6 @@ an account.
 ::::::::::::::::::::::::::::::::::::: 
 
 
-
-::::::::::::::::::::::::::::::::::::: callout
-
-## Other hosting options if you don't run a server
-
-There are other ways, but they require more technical expertise. If you are at
-or affiliated with a university, contact your scientific computing staff. They
-can setup a Shiny Server and Rstudio Server so you can easily deploy apps by
-uploading them.
-
-If you don't have that option, and shinyapps.io is not enough for you, you can
-[deploy your app with Heroku](https://www.john-mcallister.com/deploy-r-shiny-applications-on-heroku/) or [Digital Ocean](https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/). It's going to take some work, patience, and desire to learn more about
-systems administration. Skills well worth learning.
-
-::::::::::::::::::::::::::::::::::::: 
-
-
-
 ## Deploying Your App to Shinyapps.io
 
 ![Rstudio clickthrough to deploy](fig/shiny-publish.png)
@@ -76,6 +59,27 @@ Run your app. If it has a problem, log into [shinyapps.io](https://shinyapps.io)
 and inspect the logfile for your app to see what went wrong.
 
 ![Log view in shinyapps.io](fig/shinyapps_log.png)
+
+
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Other hosting options if you don't run a server
+
+There are other ways to host a Shiny app, but they require more technical expertise. If you are at
+or affiliated with a university, contact your scientific computing staff. They
+may be able to setup a Shiny Server and Rstudio Server so you can easily deploy apps by
+uploading them.
+
+If you don't have that option, and `shinyapps.io` is not enough for you, a couple alternatives include:
+ - [Heroku](https://john-mcallister.com/deploy-r-shiny-on-heroku/)
+ - [Digital Ocean](https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/).
+ 
+It will take some work, patience, and desire to implement these options but they are skills well worth learning.
+
+::::::::::::::::::::::::::::::::::::: 
+
+TODO Need summary or episode AND over all workshop
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 

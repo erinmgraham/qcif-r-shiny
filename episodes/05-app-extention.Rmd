@@ -1,0 +1,250 @@
+---
+title: "Extending your Shiny App"
+teaching: 20
+exercises: 15
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(fig.height = 6, 
+                      warning = FALSE, 
+                      message = FALSE, 
+                      eval = FALSE)
+```
+
+:::::::::::::::::::::::::::::::::::::: questions 
+
+- How can we extend a Shiny app with additional inputs and outputs?
+- How can we adapt an existing app to explore different data?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Add new input widgets to a Shiny app.
+- Modify server logic to support additional app features.
+- Extend an existing app to explore industry data.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+Now that we have built a complete Shiny app, it is time to start making it our own.
+
+So far, we have focused on the core ideas behind Shiny: user interfaces, inputs, outputs, and reactive expressions. Many real-world Shiny apps build on exactly these same concepts by adding more inputs, more outputs, and more ways for users to explore data.
+
+The dataset used in this lesson contains information about both occupations and industries. In this episode, we will extend our app by adding new controls and outputs, then apply what we have learned to create our own variations of the app.
+
+
+## Adding another input
+
+Our app currently allows users to choose a region. We can make the app more flexible by allowing them to select a suburb as well.
+
+To add another input, place a second `selectInput()` in the `sidebarPanel()`.
+
+```{r}
+# 2. Define a User Interface
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+                inputId = "region_select",
+                label = "Choose a region", 
+                choices = unique(bcc$region)
+                ),
+      selectInput(                               # this is new!
+        inputId = "suburb_select",
+        label = "Choose a suburb",
+        choices = unique(bcc$suburb)
+                ),
+    ),  
+    mainPanel(
+      tableOutput(outputId = "occupation_table"),
+      plotOutput(outputId = "occupation_plot")        
+    )
+  )
+)
+```
+
+Notice that every input requires a unique `inputId`. As with our earlier examples, we will use this identifier in the server to access the user's selection through the input object.
+
+Run the app and change the suburb. What happens?
+
+Where else do we need to change the code? In the server!
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Add a suburb selector to server
+
+Modify the server so that the table and plot respond to the selected `suburb`.
+
+:::::::::::::::  solution
+
+```{r}
+# 3. Define a server
+server <- function(input, output) {
+  
+    output$occupation_table <- renderTable({
+      bcc %>%
+        filter(region == input$region_select) %>%
+        filter(region == input$suburb_select) %>%     # this is new!
+        group_by(occupation) %>%
+        summarise(
+          occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+          .groups = "drop") %>%
+        arrange(desc(occupation_count_2041))
+    })
+
+  # code omitted for teaching purposes
+```
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+::::::::::::::::::::::::::::::::::::: discussion
+
+## Try a few different combinations of region and suburb.
+
+Do all combinations return results?
+
+Why might some combinations produce an empty table and plot?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+The region and suburb inputs are currently dependent - they rely on the same summary data. This means you can select combinations that do not exist.
+
+To avoid this problem, we need to update the available suburb choices whenever the selected region changes.
+
+## Input update functions
+
+Update functions in R Shiny allow developers to dynamically change the state or user interface of an application without requiring a full page refresh. The exact usage depends on the framework you are using.
+
+These functions work in the background by sending messages to the browser. Messages are collected and sent after all outputs and observers finish running. Any argument passed as `NULL` will be ignored and won't change the UI.
+
+Like other Shiny functions, update functions are named using the **update** keyword followed by the input type. To **update** an input selection, we used the function `updateSelectInput()`.
+
+This function takes:
+
+- `session` object passed to the server function
+- `inputId` as we've seen before
+- `choices` vector of new choices to display
+- `selected` is the initially selected value.
+
+If we set 'selected' to `None` it will update based on other input selectors at runtime.
+
+```{r}
+# 3. Define a server
+server <- function(input, output, session) {
+  
+    output$occupation_table <- renderTable({
+      bcc %>%
+        filter(region == input$region_select) %>%
+        filter(region == input$suburb_select) %>%     # this is new!
+        group_by(occupation) %>%
+        summarise(
+          occupation_count_2041 = sum(occupation_count_2041, na.rm = TRUE),
+          .groups = "drop") %>%
+        arrange(desc(occupation_count_2041))
+    })
+
+  # code omitted for teaching purposes
+
+
+
+
+## Limiting results with a slider
+
+So far, our app displays every occupation for the selected region. In practice, users are often interested in only the most common results.
+
+A slider allows users to control how many results are shown.
+
+Let's add a `sliderInput()` to the `sidebarPanel()`:
+
+```{r}
+sliderInput(
+  inputId = "top_n",
+  label = "Number of occupations",
+  min = 1,
+  max = 20,
+  value = 10
+)
+
+Like every input widget, the slider creates a value that can be accessed through the input object. The user's selected number will be available as `input$top_n`.
+
+We can use this value inside our reactive expression to limit the number of rows returned.
+
+```{r}
+slice_head(n = input$top_n)
+```
+
+Run the app and move the slider.
+
+- What happens to the table?
+- What happens to the plot?
+- Why do both outputs update even though we only changed the reactive expression?
+    
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+Experiment with the slider
+
+Try changing:
+
+- the minimum value
+- the maximum value
+- the default value
+
+What effect do these changes have on the user interface?
+
+:::::::::::::::  solution
+
+Answers may vary.
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+## Downloading results
+
+```{r}
+downloadButton()
+```
+
+
+## Guided transfer exercise
+
+You've already built an **occupation** explorer.
+Can you adapt it into an **industry** explorer?
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::
+
+selectInput("measure") # Occupation, Industry
+
+    
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Industry Explorer
+
+Modify the app so that it explores industries instead of occupations.
+
+Your new app should:
+
+1. Allow the user to select a region.
+2. Display industry information.
+3. Use a reactive expression to prepare the industry data.
+
+Hint: Look for the columns `industry` and `industry_count_2041` in the dataset and follow the same pattern used previously for occupations.
+
+:::::::::::::::  solution
+
+Answers may vary.
+
+
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
