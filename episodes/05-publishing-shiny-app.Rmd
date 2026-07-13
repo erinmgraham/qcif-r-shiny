@@ -5,10 +5,10 @@ exercises: 15
 ---
 
 ```{r setup, echo=FALSE}
-source("setup.R")
 knitr::opts_chunk$set(fig.height = 6, 
                       warning = FALSE, 
-                      message = FALSE, eval = FALSE)
+                      message = FALSE, 
+					            eval = FALSE)
 ```
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -25,11 +25,7 @@ knitr::opts_chunk$set(fig.height = 6,
 
 ## Shinyapps.io
 
-In order to make your Shiny apps available to the world, we need to put them
-somewhere publicly accessible on the Worldwide Web. In order to do this, we need
-a Shiny Server - a server running R that knows how to deploy Shiny apps. While
-those of you with a server and know-how can deploy your own [Shiny Server](https://posit.co/products/open-source/shinyserver/) (it's free!), that's
-generally not an option for everyone.
+To make a Shiny app available to other people, it must be hosted somewhere that can run R and serve the application through a web browser. One option is to run your own Shiny Server, but many users choose a managed hosting platform such as shinyapps.io.
 
 For our purposes, we're going to use Posit's [shinyapps.io](https://shinyapps.io), 
 a free Shiny App hosting site that is integrated into R Studio.
@@ -44,42 +40,61 @@ an account.
 ::::::::::::::::::::::::::::::::::::: 
 
 
+## Deploying Your App to Shinyapps.io
+
+Deploying your app from within RStudio is fairly simple. Within Rstudio, click 
+the **Publish** button noted above (to the left of your code pane) and select 
+`Publish Application`. You will be walked through steps to connect your instance
+of RStudio to [shinyapps.io](https://shinyapps.io) and then the app will upload.
+
+![](fig/shiny-publish.png){alt='Sidebar Layout from Mastering Shiny'}
+
+
+Run your app. If it has a problem, login to [shinyapps.io](https://shinyapps.io)
+and inspect the log file for your app to see what went wrong.
+
+![](fig/shinyapps_log.png){alt='Log view in shinyapps.io'}
+
 
 ::::::::::::::::::::::::::::::::::::: callout
 
 ## Other hosting options if you don't run a server
 
-There are other ways, but they require more technical expertise. If you are at
-or affiliated with a university, contact your scientific computing staff. They
-can setup a Shiny Server and Rstudio Server so you can easily deploy apps by
-uploading them.
+There are other ways to host a Shiny app, but they require more technical expertise. If you are at or affiliated with a university, contact your scientific computing staff. They may be able to setup a Shiny Server and Rstudio Server so you can easily deploy apps by uploading them.
 
-If you don't have that option, and shinyapps.io is not enough for you, you can
-[deploy your app with Heroku](https://www.john-mcallister.com/deploy-r-shiny-applications-on-heroku/) or [Digital Ocean](https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/). It's going to take some work, patience, and desire to learn more about
-systems administration. Skills well worth learning.
+If you don't have that option, and `shinyapps.io` is not enough for you, a couple alternatives include:
+ - [Heroku](https://john-mcallister.com/deploy-r-shiny-on-heroku/)
+ - [Digital Ocean](https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/).
+ 
+It will take some work, patience, and desire to implement these options but they are skills well worth learning.
 
 ::::::::::::::::::::::::::::::::::::: 
 
 
+## Workshop Summary
 
-## Deploying Your App to Shinyapps.io
+Congratulations! In this workshop you built and published a Shiny app from scratch.
 
-![Rstudio clickthrough to deploy](fig/shiny-publish.png)
-*How to Publish your Shiny App from Dean Attali*
+You learned how to:
 
-Deploying your app from within RStudio is fairly simple. Within Rstudio, click 
-the funky botton noted above (to the left of your code pane) and select 
-`Publish Application`. You will be walked through steps to connect your instance
-of RStudio to [shinyapps.io](https://shinyapps.io) and then the app will upload.
+- Create the structure of a Shiny app using a user interface and server.
+- Add inputs and outputs to make an app interactive.
+- Use reactive expressions to organise and reuse server logic.
+- Deploy an app using shinyapps.io.
 
-Run your app. If it has a problem, log into [shinyapps.io](https://shinyapps.io)
-and inspect the logfile for your app to see what went wrong.
+From here, you may wish to explore:
 
-![Log view in shinyapps.io](fig/shinyapps_log.png)
+- Additional input and output widgets.
+- App styling and layout.
+- Interactive plots and tables.
+- Larger applications using Shiny modules.
+- Hosting and deployment options.
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use shinyapps.io in conjunction with Rstudio to make your app public.
-     
+- A Shiny app must be hosted on a service capable of running R.
+- shinyapps.io provides a simple way to publish Shiny apps.
+- The same Shiny concepts can be used to build more complex applications.
+
 ::::::::::::::::::::::::::::::::::::::::::::::::
