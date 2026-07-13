@@ -25,7 +25,7 @@ Before we can respond to user input, we need to prepare the data the app will us
 
 This lesson uses data from an [Employment Projection Model], which provides employment forecasts for South East Queensland. The dataset includes forecast information for 2041, such as occupations and industries associated with residents in each region.
 
-Check that the [csv file used in this workshop](data/bcc_occupation_count_2041.csv) is located in your project’s data folder. Then add the following lines to the setup section of your app to load the data.
+Check that the [csv file used in this workshop](data/bcc_occupation_industry.csv) is located in your project’s data folder. Then add the following lines to the setup section of your app to load the data.
 
 We also load the tidyverse package, which we will use for reading and manipulating the data.
 
@@ -35,12 +35,33 @@ We also load the tidyverse package, which we will use for reading and manipulati
 library(shiny)
 library(tidyverse)
 
-bcc <- read_csv("data/bcc_occupation_count_2041.csv")
-head(bcc)
+bcc <- read_csv("data/bcc_occupation_industry.csv")
+str(bcc)
+```
+
+``` output
+spc_tbl_ [399 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ region               : chr [1:399] "Brisbane - East" "Brisbane - East" "Brisbane - East" "Brisbane - East" ...
+ $ suburb               : chr [1:399] "Belmont - Gumdale" "Belmont - Gumdale" "Belmont - Gumdale" "Brisbane Port - Lytton" ...
+ $ occupation           : chr [1:399] "Specialist Managers" "Health Professionals" "Business, Human Resource and Marketing Professionals" "Chief Executives, General Managers and Legislators" ...
+ $ occupation_count_2041: num [1:399] 374 306 232 0 0 0 398 201 173 569 ...
+ $ industry             : chr [1:399] "Professional, Scientific and Technical Services (Except Computer System Design and Related Services)" "Hospitals" "Tertiary Education" "Agriculture" ...
+ $ industry_count_2041  : num [1:399] 341 308 223 0 0 0 395 221 213 595 ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   region = col_character(),
+  ..   suburb = col_character(),
+  ..   occupation = col_character(),
+  ..   occupation_count_2041 = col_double(),
+  ..   industry = col_character(),
+  ..   industry_count_2041 = col_double()
+  .. )
+ - attr(*, "problems")=<pointer: 0x55a94b362600> 
 ```
 
 ::::::::::::::::::::::::::::::::::::: challenge
-Challenge: Explore the data
+
+Explore the data
 
 Take a minute to inspect the dataset and identify variables that a user might reasonably control using an input object (for example, via a dropdown menu).
 
@@ -60,9 +81,9 @@ Now that we have data, we need to give our user the tools to explore it. Shiny p
 
 The function then takes an `inputID` argument - a string which will be used to refer to the input later on in the server. Then a `label` argument, for what the user will see as the text describing the input. Finally, a wide variety of input specific arguments.
 
-For our app, we will add a `selectInput()` that allows the user to choose a region.
+For our app, we want to add a `selectInput()` that allows the user to choose a `region`.
 
-Looking at `?selectInput` we see we will need the following arguments:
+Looking at `?selectInput` we see we need the following arguments:
 
 - `inputId` - a name for our input
 - `label` - what the user sees
@@ -91,7 +112,8 @@ ui <- fluidPage(
 Save and run your app, and see that a dropdown menu with the different regions appears. Change the selected region. Notice that although the input value changes, the app output does not yet respond. This will change in the next section.
 
 ::::::::::::::::::::: callout
-Input Widgets
+
+## Input Widgets
 
 This is just the start of what is possible with input widgets. Shiny provides many built‑in inputs, and additional packages extend these options further.
 
@@ -206,7 +228,8 @@ server <- function(input, output) {
 Save your script and run the app again. This time, the `occupation_table` appears in the main panel and updates when a different region is selected.
 
 ::::::::::::::::::::::::::::::::::::: discussion
-Discussion - How did it go?
+
+## How did it go?
 
 And there you have it - a basic Shiny app! Take a minute to interact with the app by selecting different regions.
 
@@ -217,12 +240,14 @@ And there you have it - a basic Shiny app! Take a minute to interact with the ap
 ::::::::::::::::::::::::::::::::::::: 
 
 ::::::::::::::::::::::::::::::::::::: challenge
-Challenge:: Modify the output table
+
+## Modify the output table
 
 Update the server code so that the table displays only the occupation names,
 and no longer includes the occupation count column.
 
 ::::::::::::::::::::: solution
+
 One possible solution is shown below.
 
 Here, the `select()` function is used to drop the `occupation_count_2041` column.

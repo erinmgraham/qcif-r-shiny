@@ -31,12 +31,12 @@ Notice all server logic is currently placed directly inside `renderTable()`, , m
 What if we want to add another input or output?
 
 ::::::::::::::::::::::::::::::::::::: challenge 
-Challenge: Object types for input and output
+## Object types for input and output
 
-Suppose we want to extend the app by adding a **plot** showing top occupations by
-**region**.
+Suppose we want to add a plot showing top occupations by `region`.
 
-Which input and output-related functions would we need to:
+Which input- and output-related functions would we need to:
+
 1. Let the user select a region?
 2. Display a plot in the app?
 
@@ -52,11 +52,11 @@ One possible solution:
 :::::::::::::::
 ::::::::::::::::::::::::::::::::::::: 
 
-Before introducing any new Shiny concepts, let’s extend the app using the approach we have used so far.
+Before introducing any new Shiny concepts, let’s add another output to the app using the approach we have used so far.
 
-## Extending the app without reactive expressions
+## Adding to the app without reactive expressions
 
-We can extend the app using the approach we already know by adding an output to our app that will produce a plot of top occupations by region.
+We can add objects to the app using the approach we already know and produce a plot of top occupations by region.
 
 We already have the input as the region selected. Recall Shiny outputs need an `*Output()` function defined in the user interface and a `render*()` function for the server that matches the corresponding output.
 
@@ -91,13 +91,15 @@ Run the app again and notice the plot does not appear. This is expected: we have
 
 Now let us add a `renderPlot()` object to plot the occupations by region. 
 
-We want to prepare the data the same way we prepared the data for the `occupation_table` and then produce a plot. Copy‑paste the same `filter` → `group` → `summarise` → `arrange` pipeline you used in `renderTable()`. Then add code for the plot:
+We want to prepare the data the same way we prepared the data for the `occupation_table` and then produce a plot. 
 
-- ggplot() to create the plot and map variables to the x and y axes, using reorder() to control the order of categories.
-- geom_col() to draw a bar chart.
-- coord_flip() to flip the axes so long labels are easier to read.
-- labs() to add axis labels.
-- theme_minimal() to apply a simple theme and increase the text size.
+Copy‑paste the same `filter` → `group` → `summarise` → `arrange` pipeline you used in `renderTable()`. Then add code for the plot:
+
+- `ggplot()` to create the plot and map variables to the x and y axes, using `reorder()` to control the order of categories.
+- `geom_col()` to draw a bar chart.
+- `coord_flip()` to flip the axes so long labels are easier to read.
+- `labs()` to add axis labels.
+- `theme_minimal()` to apply a simple theme and increase the text size.
 
 
 ``` r
@@ -137,7 +139,7 @@ Run the app again. You should now see two outputs, both of them updating when th
 Take a moment to compare the code inside `renderTable()` and `renderPlot()`. What parts of the logic appear in both places?
 
 ::::::::::::::::::::::::::::::::::::: discussion 
-Discussion: Notice the pattern
+## Notice the pattern
 
 Take a close look at the server code. Notice that each output repeats a similar pattern to prepare the data: filter, group, summarise, and arrange.
 
@@ -219,7 +221,7 @@ server <- function(input, output) {
 Writing the server logic in terms of `reactive()` expressions means we can reuse the summary_data reactive value elsewhere, like in the server logic for the plot output.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
-Challenge: Reuse `summary_data()` in the plot output
+## Reuse `summary_data()` in the plot output
 
 Modify the app by replacing the data preparation code inside the plot with the reactive expression `summary_data()`.
 
@@ -251,15 +253,19 @@ server <- function(input, output) {
 :::::::::::::::
 ::::::::::::::::::::::::::::::::::::: 
 
-Before introducing reactive expressions, we extended the app by adding a second output and placing all of the required data processing directly inside renderPlot(). While this approach works, it required repeating the same data preparation steps—filtering, grouping, summarising, and arranging—inside multiple rendering functions.
+Before introducing reactive expressions, we added to the app by creating a second output and placing all of the required data processing directly inside `renderPlot()`. 
 
-This duplication makes apps harder to maintain as they grow. Any change to the data preparation logic would need to be made in every output that depends on it. By using reactive() expressions, we can compute shared results once and reuse them across multiple outputs, making our server code simpler, clearer, and easier to extend.
+While this approach works, it required repeating the same data preparation steps—filtering, grouping, summarising, and arranging—inside multiple rendering functions.
 
-From here, people usually look at improving layout and styling, organising larger apps with modules, or figuring out how to share their app. We didn’t cover those today, but now you have the foundation to explore them.
+This duplication makes apps harder to maintain as they grow. Any change to the data preparation logic would need to be made in every output that depends on it. 
+
+By using `reactive()` expressions, we can compute shared results once and reuse them across multiple outputs, making our server code simpler, clearer, and easier to extend.
+
+From here, people usually look at adding extensions, improving layout and styling, organising larger apps with modules, or figuring out how to share their app.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Reactivity is central to how Shiny apps update in response to changes in user input.
+- **Reactivity** is central to how Shiny apps update in response to changes in user input.
 - Code inside `render*()` functions is automatically re‑run when its reactive dependencies change.
 - Repeating the same data preparation logic across multiple outputs can make apps harder to maintain.
 - `reactive()` expressions allow shared server logic to be computed once and reused across multiple outputs.
