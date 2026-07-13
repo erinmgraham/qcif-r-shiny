@@ -22,7 +22,7 @@ knitr::opts_chunk$set(fig.height = 6,
 
 ## Introduction to Shiny
 
-As researchers, we often want to make our work more accessible to a wider audience. While tools such as [Quarto] allow us to create rich static reports, they do not allow others to interact with our data and visualisations without learning R.
+As researchers, we often want to make our work more accessible to a wider audience.
 
 Shiny is an R package that makes it possible to build interactive web applications. These apps allow users to explore data, adjust inputs, and see results update in real time — without writing any R code themselves.
 
@@ -47,10 +47,9 @@ Take some time to explore these example apps built with Shiny.
 
 - Posit [Shiny Gallery] 
 - 2024 Winners of the annual [R Shiny Competition]
-
-- What do you like about them? 
-- What do you not like about them? 
-- What possibilities do you see for your own work?
+  - What do you like about them? 
+  - What do you not like about them? 
+  - What possibilities do you see for your own work?
 
 :::::::::::::::::::::::::::::::::::::
 
