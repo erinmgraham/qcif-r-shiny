@@ -31,9 +31,9 @@ ui <- fluidPage(
   "Hello world"                                       # this is new!
 )
 ```
-
+```output
 ![](fig/02_shiny_app_hello_crop.png){alt='Mostly blank white page displaying the text hello world'}
-
+```
 
 Any text placed in the UI is displayed on the page. Behind the scenes, Shiny is still generating HTML to describe that content.
 
@@ -62,8 +62,9 @@ ui <- fluidPage(
   h3("The HTML <h3> tag defines a third-level heading in a web document"),
 )
 ```
-
+```output
 ![](fig/02_shiny_app_ui_ex_crop.png){alt='Screenshot of app with different styles of html tags'}
+```
 
 In the rendered app, the text now appears with different visual emphasis. Although we are calling R functions, each of these function calls adds one corresponding HTML element to the page, which the browser then renders in the order they appear.
 
@@ -77,7 +78,7 @@ Shiny provides functions for many HTML text elements.
 ::::::::::::::::::::::::::::::::::::: 
 
 ::::::::::::::::::::::::::::::::::::: challenge
-Challenge: Add an additional element
+## Add an additional element
 
 Many HTML tags have corresponding Shiny functions. Choose one heading or paragraph‑style element (for example, h2(), h4(), or p()) and add it to the UI using a Shiny UI function.
 
@@ -138,7 +139,7 @@ ui <- fluidPage(
 Layout functions control the overall structure of the page, determining where content appears rather than what content is displayed.
 
 ::::::::::::::::::::::::::::::::::::: challenge
-Challenge: Modify the layout content
+## Modify the layout content
 
 Change the text inside the sidebar panel and the main panel to reflect what type of content you might place there in a real application.
 

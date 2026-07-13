@@ -17,7 +17,7 @@ exercises: 15
 
 ## Introduction to Shiny
 
-As researchers, we often want to make our work more accessible to a wider audience. While tools such as [Quarto] allow us to create rich static reports, they do not allow others to interact with our data and visualisations without learning R.
+As researchers, we often want to make our work more accessible to a wider audience.
 
 Shiny is an R package that makes it possible to build interactive web applications. These apps allow users to explore data, adjust inputs, and see results update in real time — without writing any R code themselves.
 
@@ -25,31 +25,42 @@ In this lesson, we introduce the basic structure of a Shiny app and begin buildi
 
 ![Shiny in a Nutshell from Dean Attali](fig/01_shiny_in_a_nutshell_attali.png){alt='Diagram illustrating shiny components from Dean Attali's book'}
 
-R Shiny apps are written in R code and consist of a user interface and the server. The **user interface** (ui) lets us create what the user will see and interact with. The **server** builds the outputs that react and update based on user inputs. Shiny apps run on an R process that serves content to a web browser. In practice, this may be a local R session, shinyapps.io, [Shiny Server], or RStudio Connect.
+R Shiny apps are written in R code and consist of a user interface and the server. 
+The **user interface** (ui) lets us create what the user will see and interact with. 
+
+The **server** builds the outputs that react and update based on user inputs. Shiny apps run on an R Server that delivers rendered content to a web browser. 
+
+In practice, this may be a local R session, shinyapps.io, [Shiny Server], or RStudio Connect.
 
 ::::::::::::::::::::::::::::::::::::: discussion
-Discussion: Example Shiny app websites
+
+## Example Shiny app websites
 
 Shiny apps can range from simple interactive visualisations to complex applications used in production.
 
 Take some time to explore these example apps built with Shiny.
 
-- Posit [Shiny Gallery]. 
-- 2024 Winners of the annual [R Shiny Competition].
-
-- What do you like about them? 
-- What do you not like about them? 
-- What possibilities do you see for your own work?
+- Posit [Shiny Gallery] 
+- 2024 Winners of the annual [R Shiny Competition]
+  - What do you like about them? 
+  - What do you not like about them? 
+  - What possibilities do you see for your own work?
 
 :::::::::::::::::::::::::::::::::::::
 
 ## Creating a Shiny app
 
-Let's start by creating a new project called `shiny-qcif`. Within that project, create a folder called data and download or move the lesson data into that folder. Next, create a new script called `app.R` and save it in the same directory as your `.Rproj` file.
+Let's start by creating a new project called `shiny-qcif`. 
+
+Within that project, create a folder called **data** and download or move the lesson data into that folder. 
+
+Next, create a new script called `app.R` and save it in the same directory as your `.Rproj` file.
 
 Note a Shiny project can also be created in RStudio using the `New Project Wizard` and selecting `Shiny Application`. This creates a project with a pre-built Shiny app in an `app.R` script. While this is a quick way to get started once you are familiar with Shiny, here we will build the app from scratch so learners can see each part as it is introduced.
 
 ::::::::::::::::::::::::::::::::::::: callout
+
+## Shiny files
 
 Although you can put a Shiny app into any type of file initially, once you decide to use it with a [Shiny Server], it's important to note the server will only recognize one of two file configurations:
 
@@ -65,7 +76,11 @@ This is not to say you cannot place **parts of your app's code** in different R 
 
 ## The Anatomy of a Shiny app
 
-A Shiny app has three essential parts: a user interface, a server, and a call to shinyApp() that connects them. Most apps also include setup code at the top of the script to load packages and prepare data. Shown here together, code below will run and produce a blank app. We will introduce each part in turn and explain how they work.
+A Shiny app has three essential parts: a user interface, a server, and a call to shinyApp() that connects them. 
+
+Most apps also include setup code at the top of the script to load packages and prepare data. 
+
+Shown here together, code below will run and produce a blank app. We will introduce each part in turn and explain how they work.
 
 
 ``` r
