@@ -294,6 +294,18 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-app-extention.html">6. Bonus: Extending your Shiny App</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -351,7 +363,7 @@
         
 <section id="aio-01-intro-to-shiny"><p>Content from <a href="01-intro-to-shiny.html">Introduction to Shiny</a></p>
 <hr>
-<p>Last updated on 2026-06-04 |
+<p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/01-intro-to-shiny.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 35 minutes</p>
@@ -388,9 +400,7 @@
 </h2>
 <hr class="half-width">
 <p>As researchers, we often want to make our work more accessible to a
-wider audience. While tools such as <a href="https://quarto.org/" class="external-link">Quarto</a> allow us to create rich static
-reports, they do not allow others to interact with our data and
-visualisations without learning R.</p>
+wider audience.</p>
 <p>Shiny is an R package that makes it possible to build interactive web
 applications. These apps allow users to explore data, adjust inputs, and
 see results update in real time — without writing any R code
@@ -401,30 +411,35 @@ begin building one step by step.</p>
 shiny components from Dean Attali’s book’}</p>
 <p>R Shiny apps are written in R code and consist of a user interface
 and the server. The <strong>user interface</strong> (ui) lets us create
-what the user will see and interact with. The <strong>server</strong>
-builds the outputs that react and update based on user inputs. Shiny
-apps run on an R process that serves content to a web browser. In
-practice, this may be a local R session, shinyapps.io, <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
+what the user will see and interact with.</p>
+<p>The <strong>server</strong> builds the outputs that react and update
+based on user inputs. Shiny apps run on an R Server that delivers
+rendered content to a web browser.</p>
+<p>In practice, this may be a local R session, shinyapps.io, <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
 Server</a>, or RStudio Connect.</p>
-<div id="discussion1" class="callout discussion">
+<div id="example-shiny-app-websites" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div class="callout-inner">
+<div id="example-shiny-app-websites" class="callout-inner">
+<h3 class="callout-title">Example Shiny app websites</h3>
 <div class="callout-content">
-<p>Discussion: Example Shiny app websites</p>
 <p>Shiny apps can range from simple interactive visualisations to
 complex applications used in production.</p>
 <p>Take some time to explore these example apps built with Shiny.</p>
 <ul>
-<li><p>Posit <a href="https://shiny.posit.co/r/gallery/" class="external-link">Shiny
-Gallery</a>.</p></li>
-<li><p>2024 Winners of the annual <a href="https://posit.co/blog/winners-of-the-2024-shiny-contest/" class="external-link">R Shiny
-Competition</a>.</p></li>
-<li><p>What do you like about them?</p></li>
-<li><p>What do you not like about them?</p></li>
-<li><p>What possibilities do you see for your own work?</p></li>
+<li>Posit <a href="https://shiny.posit.co/r/gallery/" class="external-link">Shiny
+Gallery</a>
+</li>
+<li>2024 Winners of the annual <a href="https://posit.co/blog/winners-of-the-2024-shiny-contest/" class="external-link">R Shiny
+Competition</a>
+<ul>
+<li>What do you like about them?</li>
+<li>What do you not like about them?</li>
+<li>What possibilities do you see for your own work?</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -432,23 +447,25 @@ Competition</a>.</p></li>
 </section><section><h2 class="section-heading" id="creating-a-shiny-app">Creating a Shiny app<a class="anchor" aria-label="anchor" href="#creating-a-shiny-app"></a>
 </h2>
 <hr class="half-width">
-<p>Let’s start by creating a new project called <code>shiny-qcif</code>.
-Within that project, create a folder called data and download or move
-the lesson data into that folder. Next, create a new script called
-<code>app.R</code> and save it in the same directory as your
-<code>.Rproj</code> file.</p>
+<p>Let’s start by creating a new project called
+<code>shiny-qcif</code>.</p>
+<p>Within that project, create a folder called <strong>data</strong> and
+download or move the lesson data into that folder.</p>
+<p>Next, create a new script called <code>app.R</code> and save it in
+the same directory as your <code>.Rproj</code> file.</p>
 <p>Note a Shiny project can also be created in RStudio using the
 <code>New Project Wizard</code> and selecting
 <code>Shiny Application</code>. This creates a project with a pre-built
 Shiny app in an <code>app.R</code> script. While this is a quick way to
 get started once you are familiar with Shiny, here we will build the app
 from scratch so learners can see each part as it is introduced.</p>
-<div id="callout1" class="callout">
+<div id="shiny-files" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div class="callout-inner">
+<div id="shiny-files" class="callout-inner">
+<h3 class="callout-title">Shiny files</h3>
 <div class="callout-content">
 <p>Although you can put a Shiny app into any type of file initially,
 once you decide to use it with a <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
@@ -474,9 +491,10 @@ return to this later.</p>
 </h2>
 <hr class="half-width">
 <p>A Shiny app has three essential parts: a user interface, a server,
-and a call to shinyApp() that connects them. Most apps also include
-setup code at the top of the script to load packages and prepare data.
-Shown here together, code below will run and produce a blank app. We
+and a call to shinyApp() that connects them.</p>
+<p>Most apps also include setup code at the top of the script to load
+packages and prepare data.</p>
+<p>Shown here together, code below will run and produce a blank app. We
 will introduce each part in turn and explain how they work.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -630,7 +648,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-02-shiny-ui"><p>Content from <a href="02-shiny-ui.html">The Basics of a User Interface</a></p>
 <hr>
-<p>Last updated on 2026-06-04 |
+<p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/02-shiny-ui.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 35 minutes</p>
@@ -685,9 +703,14 @@ outputs.</p>
 <span>  <span class="st">"Hello world"</span>                                       <span class="co"># this is new!</span></span>
 <span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/02_shiny_app_hello_crop.png" alt="Mostly blank white page displaying the text hello world" class="figure mx-auto d-block"></figure><p>Any text placed in the UI is displayed on the page. Behind the
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>![](fig/02_shiny_app_hello_crop.png){alt='Mostly blank white page displaying the text hello world'}</code></pre>
+</div>
+<p>Any text placed in the UI is displayed on the page. Behind the
 scenes, Shiny is still generating HTML to describe that content.</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -709,7 +732,7 @@ that explicitly create HTML elements.</p>
 correspond to HTML tags. For example, the page below will have one big
 header (h1), a line break (br), and a smaller header (h3). Note how
 every element is separated by a comma.</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -720,7 +743,12 @@ every element is separated by a comma.</p>
 <span>  <span class="fu">h3</span><span class="op">(</span><span class="st">"The HTML &lt;h3&gt; tag defines a third-level heading in a web document"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/02_shiny_app_ui_ex_crop.png" alt="Screenshot of app with different styles of html tags" class="figure mx-auto d-block"></figure><p>In the rendered app, the text now appears with different visual
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>![](fig/02_shiny_app_ui_ex_crop.png){alt='Screenshot of app with different styles of html tags'}</code></pre>
+</div>
+<p>In the rendered app, the text now appears with different visual
 emphasis. Although we are calling R functions, each of these function
 calls adds one corresponding HTML element to the page, which the browser
 then renders in the order they appear.</p>
@@ -739,15 +767,14 @@ each one, such as whether it takes any additional arguments.</p>
 </div>
 </div>
 </div>
-<div id="challenge1" class="callout challenge">
+<div id="add-an-additional-element" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="add-an-additional-element" class="callout-inner">
+<h3 class="callout-title">Add an additional element</h3>
 <div class="callout-content">
-<p>Challenge: Add an additional element</p>
 <p>Many HTML tags have corresponding Shiny functions. Choose one heading
 or paragraph‑style element (for example, h2(), h4(), or p()) and add it
 to the UI using a Shiny UI function.</p>
@@ -763,7 +790,7 @@ to the UI using a Shiny UI function.</p>
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of heading or
 paragraph may differ.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -804,7 +831,7 @@ below.</p>
 <figure><img src="../fig/sidebar.png" alt="Sidebar Layout from Mastering Shiny" class="figure mx-auto d-block"></figure><p>To create this structure in our user interface, we start with a blank
 <code>fluidPage()</code> and add a title panel and a sidebar layout,
 which contains a sidebar panel and a main panel.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -820,15 +847,14 @@ which contains a sidebar panel and a main panel.</p>
 <p>Layout functions control the overall structure of the page,
 determining where content appears rather than what content is
 displayed.</p>
-<div id="challenge2" class="callout challenge">
+<div id="modify-the-layout-content" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="modify-the-layout-content" class="callout-inner">
+<h3 class="callout-title">Modify the layout content</h3>
 <div class="callout-content">
-<p>Challenge: Modify the layout content</p>
 <p>Change the text inside the sidebar panel and the main panel to
 reflect what type of content you might place there in a real
 application.</p>
@@ -844,7 +870,7 @@ application.</p>
 <div class="accordion-body">
 <p>One possible solution is shown below. Your choice of content may
 differ.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -889,7 +915,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-03-input-output"><p>Content from <a href="03-input-output.html">Inputs and Outputs</a></p>
 <hr>
-<p>Last updated on 2026-06-04 |
+<p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/03-input-output.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 110 minutes</p>
@@ -937,7 +963,7 @@ app will use.</p>
 Projection Model</a>, which provides employment forecasts for South East
 Queensland. The dataset includes forecast information for 2041, such as
 occupations and industries associated with residents in each region.</p>
-<p>Check that the <a href="../data/bcc_occupation_count_2041.csv">csv file
+<p>Check that the <a href="../data/bcc_occupation_industry.csv">csv file
 used in this workshop</a> is located in your project’s data folder. Then
 add the following lines to the setup section of your app to load the
 data.</p>
@@ -951,8 +977,29 @@ manipulating the data.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">shiny</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">bcc</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/bcc_occupation_count_2041.csv"</span><span class="op">)</span></span>
-<span><span class="fu">head</span><span class="op">(</span><span class="va">bcc</span><span class="op">)</span></span></code></pre>
+<span><span class="va">bcc</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/bcc_occupation_industry.csv"</span><span class="op">)</span></span>
+<span><span class="fu">str</span><span class="op">(</span><span class="va">bcc</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>spc_tbl_ [399 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ region               : chr [1:399] "Brisbane - East" "Brisbane - East" "Brisbane - East" "Brisbane - East" ...
+ $ suburb               : chr [1:399] "Belmont - Gumdale" "Belmont - Gumdale" "Belmont - Gumdale" "Brisbane Port - Lytton" ...
+ $ occupation           : chr [1:399] "Specialist Managers" "Health Professionals" "Business, Human Resource and Marketing Professionals" "Chief Executives, General Managers and Legislators" ...
+ $ occupation_count_2041: num [1:399] 374 306 232 0 0 0 398 201 173 569 ...
+ $ industry             : chr [1:399] "Professional, Scientific and Technical Services (Except Computer System Design and Related Services)" "Hospitals" "Tertiary Education" "Agriculture" ...
+ $ industry_count_2041  : num [1:399] 341 308 223 0 0 0 395 221 213 595 ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   region = col_character(),
+  ..   suburb = col_character(),
+  ..   occupation = col_character(),
+  ..   occupation_count_2041 = col_double(),
+  ..   industry = col_character(),
+  ..   industry_count_2041 = col_double()
+  .. )
+ - attr(*, "problems")=&lt;pointer: 0x55a94b362600&gt; </code></pre>
 </div>
 <div id="challenge1" class="callout challenge">
 <div class="callout-square">
@@ -962,7 +1009,7 @@ manipulating the data.</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<p>Challenge: Explore the data</p>
+<p>Explore the data</p>
 <p>Take a minute to inspect the dataset and identify variables that a
 user might reasonably control using an input object (for example, via a
 dropdown menu).</p>
@@ -998,10 +1045,10 @@ which will be used to refer to the input later on in the server. Then a
 <code>label</code> argument, for what the user will see as the text
 describing the input. Finally, a wide variety of input specific
 arguments.</p>
-<p>For our app, we will add a <code>selectInput()</code> that allows the
-user to choose a region.</p>
-<p>Looking at <code>?selectInput</code> we see we will need the
-following arguments:</p>
+<p>For our app, we want to add a <code>selectInput()</code> that allows
+the user to choose a <code>region</code>.</p>
+<p>Looking at <code>?selectInput</code> we see we need the following
+arguments:</p>
 <ul>
 <li>
 <code>inputId</code> - a name for our input</li>
@@ -1015,7 +1062,7 @@ data.</li>
 </ul>
 <p>Let’s insert an input object into our
 <code>sidebarPanel()</code>:</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1038,14 +1085,14 @@ data.</li>
 different regions appears. Change the selected region. Notice that
 although the input value changes, the app output does not yet respond.
 This will change in the next section.</p>
-<div id="callout1" class="callout">
+<div id="input-widgets" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div class="callout-inner">
+<div id="input-widgets" class="callout-inner">
+<h3 class="callout-title">Input Widgets</h3>
 <div class="callout-content">
-<p>Input Widgets</p>
 <p>This is just the start of what is possible with input widgets. Shiny
 provides many built‑in inputs, and additional packages extend these
 options further.</p>
@@ -1092,7 +1139,7 @@ and more.</p>
 <p>Let’s add a <code>tableOutput()</code> to our app that will display
 the top occupations of the selected regions. This will go in our
 <code>mainPanel()</code>:</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1125,7 +1172,7 @@ region.</p>
 <hr class="half-width">
 <p>It is now time to look more closely at the server. Recall that the
 server code looks like this:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1189,7 +1236,7 @@ columns to display in the output table.</p>
 and drop the grouping.</li>
 <li>arrange() the data in descending order.</li>
 </ul>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1211,14 +1258,14 @@ and drop the grouping.</li>
 <p>Save your script and run the app again. This time, the
 <code>occupation_table</code> appears in the main panel and updates when
 a different region is selected.</p>
-<div id="discussion1" class="callout discussion">
+<div id="how-did-it-go" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div class="callout-inner">
+<div id="how-did-it-go" class="callout-inner">
+<h3 class="callout-title">How did it go?</h3>
 <div class="callout-content">
-<p>Discussion - How did it go?</p>
 <p>And there you have it - a basic Shiny app! Take a minute to interact
 with the app by selecting different regions.</p>
 <ol style="list-style-type: decimal">
@@ -1229,15 +1276,14 @@ useful?</p></li>
 </div>
 </div>
 </div>
-<div id="challenge2" class="callout challenge">
+<div id="modify-the-output-table" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="modify-the-output-table" class="callout-inner">
+<h3 class="callout-title">Modify the output table</h3>
 <div class="callout-content">
-<p>Challenge:: Modify the output table</p>
 <p>Update the server code so that the table displays only the occupation
 names, and no longer includes the occupation count column.</p>
 </div>
@@ -1253,7 +1299,7 @@ names, and no longer includes the occupation count column.</p>
 <p>One possible solution is shown below.</p>
 <p>Here, the <code>select()</code> function is used to drop the
 <code>occupation_count_2041</code> column.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1319,7 +1365,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-04-reactives"><p>Content from <a href="04-reactives.html">Organising Server Logic with Reactive Expressions</a></p>
 <hr>
-<p>Last updated on 2026-06-04 |
+<p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/04-reactives.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 40 minutes</p>
@@ -1368,19 +1414,21 @@ occupations with a <code>tableOutput()</code>.</p>
 need to be repeated for any additional outputs. This works well for a
 simple app, but becomes harder to manage as apps grow.</p>
 <p>What if we want to add another input or output?</p>
-<div id="challenge1" class="callout challenge">
+<div id="object-types-for-input-and-output" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="object-types-for-input-and-output" class="callout-inner">
+<h3 class="callout-title">Object types for input and output</h3>
 <div class="callout-content">
-<p>Challenge: Object types for input and output</p>
-<p>Suppose we want to extend the app by adding a <strong>plot</strong>
-showing top occupations by <strong>region</strong>.</p>
-<p>Which input and output-related functions would we need to: 1. Let the
-user select a region? 2. Display a plot in the app?</p>
+<p>Suppose we want to add a plot showing top occupations by
+<code>region</code>.</p>
+<p>Which input- and output-related functions would we need to:</p>
+<ol style="list-style-type: decimal">
+<li>Let the user select a region?</li>
+<li>Display a plot in the app?</li>
+</ol>
 <p>You do not need to write any code yet but do identify what part of
 the code the function belongs to.</p>
 </div>
@@ -1391,7 +1439,7 @@ the code the function belongs to.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>One possible solution:</p>
 <ul>
@@ -1406,14 +1454,13 @@ the code the function belongs to.</p>
 </div>
 </div>
 </div>
-<p>Before introducing any new Shiny concepts, let’s extend the app using
-the approach we have used so far.</p>
-</section><section><h2 class="section-heading" id="extending-the-app-without-reactive-expressions">Extending the app without reactive expressions<a class="anchor" aria-label="anchor" href="#extending-the-app-without-reactive-expressions"></a>
+<p>Before introducing any new Shiny concepts, let’s add another output
+to the app using the approach we have used so far.</p>
+</section><section><h2 class="section-heading" id="adding-to-the-app-without-reactive-expressions">Adding to the app without reactive expressions<a class="anchor" aria-label="anchor" href="#adding-to-the-app-without-reactive-expressions"></a>
 </h2>
 <hr class="half-width">
-<p>We can extend the app using the approach we already know by adding an
-output to our app that will produce a plot of top occupations by
-region.</p>
+<p>We can add objects to the app using the approach we already know and
+produce a plot of top occupations by region.</p>
 <p>We already have the input as the region selected. Recall Shiny
 outputs need an <code>*Output()</code> function defined in the user
 interface and a <code>render*()</code> function for the server that
@@ -1457,19 +1504,25 @@ the UI, but we have not updated the server.</p>
 <p>Now let us add a <code>renderPlot()</code> object to plot the
 occupations by region.</p>
 <p>We want to prepare the data the same way we prepared the data for the
-<code>occupation_table</code> and then produce a plot. Copy‑paste the
-same <code>filter</code> → <code>group</code> → <code>summarise</code> →
-<code>arrange</code> pipeline you used in <code>renderTable()</code>.
-Then add code for the plot:</p>
+<code>occupation_table</code> and then produce a plot.</p>
+<p>Copy‑paste the same <code>filter</code> → <code>group</code> →
+<code>summarise</code> → <code>arrange</code> pipeline you used in
+<code>renderTable()</code>. Then add code for the plot:</p>
 <ul>
-<li>ggplot() to create the plot and map variables to the x and y axes,
-using reorder() to control the order of categories.</li>
-<li>geom_col() to draw a bar chart.</li>
-<li>coord_flip() to flip the axes so long labels are easier to
-read.</li>
-<li>labs() to add axis labels.</li>
-<li>theme_minimal() to apply a simple theme and increase the text
-size.</li>
+<li>
+<code>ggplot()</code> to create the plot and map variables to the x
+and y axes, using <code>reorder()</code> to control the order of
+categories.</li>
+<li>
+<code>geom_col()</code> to draw a bar chart.</li>
+<li>
+<code>coord_flip()</code> to flip the axes so long labels are easier
+to read.</li>
+<li>
+<code>labs()</code> to add axis labels.</li>
+<li>
+<code>theme_minimal()</code> to apply a simple theme and increase
+the text size.</li>
 </ul>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1510,14 +1563,14 @@ updating when the user changes a selection.</p>
 <p>Take a moment to compare the code inside <code>renderTable()</code>
 and <code>renderPlot()</code>. What parts of the logic appear in both
 places?</p>
-<div id="discussion1" class="callout discussion">
+<div id="notice-the-pattern" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div class="callout-inner">
+<div id="notice-the-pattern" class="callout-inner">
+<h3 class="callout-title">Notice the pattern</h3>
 <div class="callout-content">
-<p>Discussion: Notice the pattern</p>
 <p>Take a close look at the server code. Notice that each output repeats
 a similar pattern to prepare the data: filter, group, summarise, and
 arrange.</p>
@@ -1617,15 +1670,15 @@ reuse it in multiple outputs. For example, the table output becomes:</p>
 <p>Writing the server logic in terms of <code>reactive()</code>
 expressions means we can reuse the summary_data reactive value
 elsewhere, like in the server logic for the plot output.</p>
-<div id="challenge2" class="callout challenge">
+<div id="reuse-summary_data-in-the-plot-output" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="reuse-summary_data-in-the-plot-output" class="callout-inner">
+<h3 class="callout-title">Reuse <code>summary_data()</code> in the plot
+output</h3>
 <div class="callout-content">
-<p>Challenge: Reuse <code>summary_data()</code> in the plot output</p>
 <p>Modify the app by replacing the data preparation code inside the plot
 with the reactive expression <code>summary_data()</code>.</p>
 </div>
@@ -1636,7 +1689,7 @@ with the reactive expression <code>summary_data()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below.</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -1667,20 +1720,21 @@ with the reactive expression <code>summary_data()</code>.</p>
 </div>
 </div>
 </div>
-<p>Before introducing reactive expressions, we extended the app by
-adding a second output and placing all of the required data processing
-directly inside renderPlot(). While this approach works, it required
-repeating the same data preparation steps—filtering, grouping,
-summarising, and arranging—inside multiple rendering functions.</p>
+<p>Before introducing reactive expressions, we added to the app by
+creating a second output and placing all of the required data processing
+directly inside <code>renderPlot()</code>.</p>
+<p>While this approach works, it required repeating the same data
+preparation steps—filtering, grouping, summarising, and arranging—inside
+multiple rendering functions.</p>
 <p>This duplication makes apps harder to maintain as they grow. Any
 change to the data preparation logic would need to be made in every
-output that depends on it. By using reactive() expressions, we can
-compute shared results once and reuse them across multiple outputs,
-making our server code simpler, clearer, and easier to extend.</p>
-<p>From here, people usually look at improving layout and styling,
-organising larger apps with modules, or figuring out how to share their
-app. We didn’t cover those today, but now you have the foundation to
-explore them.</p>
+output that depends on it.</p>
+<p>By using <code>reactive()</code> expressions, we can compute shared
+results once and reuse them across multiple outputs, making our server
+code simpler, clearer, and easier to extend.</p>
+<p>From here, people usually look at adding extensions, improving layout
+and styling, organising larger apps with modules, or figuring out how to
+share their app.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1689,8 +1743,9 @@ explore them.</p>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li>Reactivity is central to how Shiny apps update in response to
-changes in user input.</li>
+<li>
+<strong>Reactivity</strong> is central to how Shiny apps update in
+response to changes in user input.</li>
 <li>Code inside <code>render*()</code> functions is automatically re‑run
 when its reactive dependencies change.</li>
 <li>Repeating the same data preparation logic across multiple outputs
@@ -1709,25 +1764,13 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-05-publishing-shiny-app"><p>Content from <a href="05-publishing-shiny-app.html">Making Shiny Apps Public</a></p>
 <hr>
-<p>Last updated on 2026-06-04 |
+<p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/05-publishing-shiny-app.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 35 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in file(filename, "r", encoding = encoding): cannot open file
-'setup.R': No such file or directory</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in `file()`:
-! cannot open the connection</code></pre>
-</div>
 <div class="overview card">
 <h2 class="card-header">Overview</h2>
 <div class="row g-0">
@@ -1756,13 +1799,10 @@ any links that you are not going to use.
 <section><h2 class="section-heading" id="shinyapps-io">Shinyapps.io<a class="anchor" aria-label="anchor" href="#shinyapps-io"></a>
 </h2>
 <hr class="half-width">
-<p>In order to make your Shiny apps available to the world, we need to
-put them somewhere publicly accessible on the Worldwide Web. In order to
-do this, we need a Shiny Server - a server running R that knows how to
-deploy Shiny apps. While those of you with a server and know-how can
-deploy your own <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
-Server</a> (it’s free!), that’s generally not an option for
-everyone.</p>
+<p>To make a Shiny app available to other people, it must be hosted
+somewhere that can run R and serve the application through a web
+browser. One option is to run your own Shiny Server, but many users
+choose a managed hosting platform such as shinyapps.io.</p>
 <p>For our purposes, we’re going to use Posit’s <a href="https://shinyapps.io" class="external-link">shinyapps.io</a>, a free Shiny App hosting
 site that is integrated into R Studio.</p>
 <div id="sign-up-for-shinyapps.io" class="callout discussion">
@@ -1778,7 +1818,17 @@ steps to register for an account.</p>
 </div>
 </div>
 </div>
-<div id="other-hosting-options-if-you-dont-run-a-server" class="callout">
+</section><section><h2 class="section-heading" id="deploying-your-app-to-shinyapps-io">Deploying Your App to Shinyapps.io<a class="anchor" aria-label="anchor" href="#deploying-your-app-to-shinyapps-io"></a>
+</h2>
+<hr class="half-width">
+<p>Deploying your app from within RStudio is fairly simple. Within
+Rstudio, click the <strong>Publish</strong> button noted above (to the
+left of your code pane) and select <code>Publish Application</code>. You
+will be walked through steps to connect your instance of RStudio to <a href="https://shinyapps.io" class="external-link">shinyapps.io</a> and then the app will
+upload.</p>
+<figure><img src="../fig/shiny-publish.png" alt="Sidebar Layout from Mastering Shiny" class="figure mx-auto d-block"></figure><p>Run your app. If it has a problem, login to <a href="https://shinyapps.io" class="external-link">shinyapps.io</a> and inspect the log file
+for your app to see what went wrong.</p>
+<figure><img src="../fig/shinyapps_log.png" alt="Log view in shinyapps.io" class="figure mx-auto d-block"></figure><div id="other-hosting-options-if-you-dont-run-a-server" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
@@ -1787,32 +1837,42 @@ steps to register for an account.</p>
 <h3 class="callout-title">Other hosting options if you don’t run a
 server</h3>
 <div class="callout-content">
-<p>There are other ways, but they require more technical expertise. If
-you are at or affiliated with a university, contact your scientific
-computing staff. They can setup a Shiny Server and Rstudio Server so you
-can easily deploy apps by uploading them.</p>
-<p>If you don’t have that option, and shinyapps.io is not enough for
-you, you can <a href="https://www.john-mcallister.com/deploy-r-shiny-applications-on-heroku/" class="external-link">deploy
-your app with Heroku</a> or <a href="https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/" class="external-link">Digital
-Ocean</a>. It’s going to take some work, patience, and desire to learn
-more about systems administration. Skills well worth learning.</p>
+<p>There are other ways to host a Shiny app, but they require more
+technical expertise. If you are at or affiliated with a university,
+contact your scientific computing staff. They may be able to setup a
+Shiny Server and Rstudio Server so you can easily deploy apps by
+uploading them.</p>
+<p>If you don’t have that option, and <code>shinyapps.io</code> is not
+enough for you, a couple alternatives include: - <a href="https://john-mcallister.com/deploy-r-shiny-on-heroku/" class="external-link">Heroku</a>
+- <a href="https://hosting.analythium.io/how-to-host-shiny-apps-on-the-digitalocean-app-platform/" class="external-link">Digital
+Ocean</a>.</p>
+<p>It will take some work, patience, and desire to implement these
+options but they are skills well worth learning.</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="deploying-your-app-to-shinyapps-io">Deploying Your App to Shinyapps.io<a class="anchor" aria-label="anchor" href="#deploying-your-app-to-shinyapps-io"></a>
+</section><section><h2 class="section-heading" id="workshop-summary">Workshop Summary<a class="anchor" aria-label="anchor" href="#workshop-summary"></a>
 </h2>
 <hr class="half-width">
-<p><img src="../fig/shiny-publish.png" alt="Rstudio clickthrough to deploy" class="figure"><em>How to Publish your Shiny
-App from Dean Attali</em></p>
-<p>Deploying your app from within RStudio is fairly simple. Within
-Rstudio, click the funky botton noted above (to the left of your code
-pane) and select <code>Publish Application</code>. You will be walked
-through steps to connect your instance of RStudio to <a href="https://shinyapps.io" class="external-link">shinyapps.io</a> and then the app will
-upload.</p>
-<p>Run your app. If it has a problem, log into <a href="https://shinyapps.io" class="external-link">shinyapps.io</a> and inspect the logfile for
-your app to see what went wrong.</p>
-<figure><img src="../fig/shinyapps_log.png" alt="Log view in shinyapps.io" class="figure mx-auto d-block"><div class="figcaption">Log view in shinyapps.io</div>
-</figure><div id="keypoints1" class="callout keypoints">
+<p>Congratulations! In this workshop you built and published a Shiny app
+from scratch.</p>
+<p>You learned how to:</p>
+<ul>
+<li>Create the structure of a Shiny app using a user interface and
+server.</li>
+<li>Add inputs and outputs to make an app interactive.</li>
+<li>Use reactive expressions to organise and reuse server logic.</li>
+<li>Deploy an app using shinyapps.io.</li>
+</ul>
+<p>From here, you may wish to explore:</p>
+<ul>
+<li>Additional input and output widgets.</li>
+<li>App styling and layout.</li>
+<li>Interactive plots and tables.</li>
+<li>Larger applications using Shiny modules.</li>
+<li>Hosting and deployment options.</li>
+</ul>
+<div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -1820,8 +1880,123 @@ your app to see what went wrong.</p>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li>Use shinyapps.io in conjunction with Rstudio to make your app
-public.</li>
+<li>A Shiny app must be hosted on a service capable of running R.</li>
+<li>shinyapps.io provides a simple way to publish Shiny apps.</li>
+<li>The same Shiny concepts can be used to build more complex
+applications.</li>
+</ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section></section><section id="aio-06-app-extention"><p>Content from <a href="06-app-extention.html">Bonus: Extending your Shiny App</a></p>
+<hr>
+<p>Last updated on 2026-07-13 |
+
+        <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/06-app-extention.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 35 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How can we extend a Shiny app with additional inputs and
+outputs?</li>
+<li>How can we adapt an existing app to explore different data?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Add new input widgets to a Shiny app.</li>
+<li>Modify server logic to support additional app features.</li>
+<li>Extend an existing app to explore industry data.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Now that we have built a complete Shiny app, it is time to start
+making it our own.</p>
+<p>So far, we have focused on the core ideas behind Shiny: user
+interfaces, inputs, outputs, and reactive expressions. Many real-world
+Shiny apps build on exactly these same concepts by adding more inputs,
+more outputs, and more ways for users to explore data.</p>
+<p>The dataset used in this lesson contains information about both
+occupations and industries. In this episode, we will extend our app by
+adding new controls and outputs, then apply what we have learned to
+create our own variations of the app.</p>
+<section><h2 class="section-heading" id="guided-transfer-exercise">Guided transfer exercise<a class="anchor" aria-label="anchor" href="#guided-transfer-exercise"></a>
+</h2>
+<hr class="half-width">
+<p>You’ve already built an <strong>occupation</strong> explorer. Can you
+adapt it into an <strong>industry</strong> explorer?</p>
+<div id="industry-explorer" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="industry-explorer" class="callout-inner">
+<h3 class="callout-title">Industry Explorer</h3>
+<div class="callout-content">
+<p>Rather than building a new app from scratch, adapt the app you have
+already created by identifying the places where occupation-related
+variables are used and replacing them with their industry
+equivalents.</p>
+<p>Your new app should:</p>
+<ol style="list-style-type: decimal">
+<li>Allow the user to select a region.</li>
+<li>Display industry information.</li>
+<li>Use a reactive expression to prepare the industry data.</li>
+</ol>
+<p>Hint: Look for the columns <code>industry</code> and
+<code>industry_count_2041</code> in the dataset and follow the same
+pattern used previously for occupations.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<p>Answers may vary.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>Shiny apps can be extended by modifying the same user interface,
+server, and reactive patterns used to build the original app.</li>
+<li>New app features often require changes in both the user interface
+and server code.</li>
+<li>Reactive expressions can be reused when adapting an app to work with
+different variables or datasets.</li>
+<li>Once you understand the basic structure of a Shiny app, it is often
+straightforward to adapt it to answer new questions.</li>
 </ul>
 </div>
 </div>
@@ -1880,8 +2055,8 @@ any links that you are not going to use.
   "url": "https://erinmgraham.github.io/qcif-r-shiny/instructor/aio.html",
   "identifier": "https://erinmgraham.github.io/qcif-r-shiny/instructor/aio.html",
   "dateCreated": "2026-03-24",
-  "dateModified": "2026-07-10",
-  "datePublished": "2026-07-10"
+  "dateModified": "2026-07-13",
+  "datePublished": "2026-07-13"
 }
 
   </script><script>

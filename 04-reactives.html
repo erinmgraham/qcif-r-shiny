@@ -118,7 +118,7 @@
     <a id="search-button" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 71%" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">71%</div>
+    <div class="progress-bar incubator" role="progressbar" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">62%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -237,7 +237,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#our-app-so-far">Our App So Far</a></li>
-<li><a href="#extending-the-app-without-reactive-expressions">Extending the app without reactive expressions</a></li>
+<li><a href="#adding-to-the-app-without-reactive-expressions">Adding to the app without reactive expressions</a></li>
 <li><a href="#reactivity">Reactivity</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -249,6 +249,15 @@
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
         <a href="05-publishing-shiny-app.html">5. Making Shiny Apps Public</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-app-extention.html">6. Bonus: Extending your Shiny App</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -312,7 +321,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Organising Server Logic with Reactive Expressions</h1>
-        <p>Last updated on 2026-06-04 |
+        <p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/04-reactives.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -360,20 +369,20 @@ occupations with a <code>tableOutput()</code>.</p>
 need to be repeated for any additional outputs. This works well for a
 simple app, but becomes harder to manage as apps grow.</p>
 <p>What if we want to add another input or output?</p>
-<div id="challenge1" class="callout challenge">
+<div id="object-types-for-input-and-output" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="object-types-for-input-and-output" class="callout-inner">
+<h3 class="callout-title">Object types for input and output</h3>
 <div class="callout-content">
-<p>Challenge: Object types for input and output</p>
-<p>Suppose we want to extend the app by adding a <strong>plot</strong>
-showing top occupations by <strong>region</strong>.</p>
-<p>Which input and output-related functions would we need to: 1. Let the
-user select a region? 2. Display a plot in the app?</p>
-<p>You do not need to write any code yet but do identify what part of
+<p>Suppose we want to add a plot showing top occupations by
+<code>region</code>.</p>
+<p>Which input- and output-related functions would we need to:</p>
+<ol style="list-style-type: decimal"><li>Let the user select a region?</li>
+<li>Display a plot in the app?</li>
+</ol><p>You do not need to write any code yet but do identify what part of
 the code the function belongs to.</p>
 </div>
 </div>
@@ -383,7 +392,7 @@ the code the function belongs to.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>One possible solution:</p>
 <ul><li>Input (UI): <code>selectInput()</code> to choose a region<br></li>
@@ -394,12 +403,11 @@ the code the function belongs to.</p>
 </div>
 </div>
 </div>
-<p>Before introducing any new Shiny concepts, let’s extend the app using
-the approach we have used so far.</p>
-</section><section><h2 class="section-heading" id="extending-the-app-without-reactive-expressions">Extending the app without reactive expressions<a class="anchor" aria-label="anchor" href="#extending-the-app-without-reactive-expressions"></a></h2>
-<hr class="half-width"><p>We can extend the app using the approach we already know by adding an
-output to our app that will produce a plot of top occupations by
-region.</p>
+<p>Before introducing any new Shiny concepts, let’s add another output
+to the app using the approach we have used so far.</p>
+</section><section><h2 class="section-heading" id="adding-to-the-app-without-reactive-expressions">Adding to the app without reactive expressions<a class="anchor" aria-label="anchor" href="#adding-to-the-app-without-reactive-expressions"></a></h2>
+<hr class="half-width"><p>We can add objects to the app using the approach we already know and
+produce a plot of top occupations by region.</p>
 <p>We already have the input as the region selected. Recall Shiny
 outputs need an <code>*Output()</code> function defined in the user
 interface and a <code>render*()</code> function for the server that
@@ -441,18 +449,24 @@ the UI, but we have not updated the server.</p>
 <p>Now let us add a <code>renderPlot()</code> object to plot the
 occupations by region.</p>
 <p>We want to prepare the data the same way we prepared the data for the
-<code>occupation_table</code> and then produce a plot. Copy‑paste the
-same <code>filter</code> → <code>group</code> → <code>summarise</code> →
-<code>arrange</code> pipeline you used in <code>renderTable()</code>.
-Then add code for the plot:</p>
-<ul><li>ggplot() to create the plot and map variables to the x and y axes,
-using reorder() to control the order of categories.</li>
-<li>geom_col() to draw a bar chart.</li>
-<li>coord_flip() to flip the axes so long labels are easier to
-read.</li>
-<li>labs() to add axis labels.</li>
-<li>theme_minimal() to apply a simple theme and increase the text
-size.</li>
+<code>occupation_table</code> and then produce a plot.</p>
+<p>Copy‑paste the same <code>filter</code> → <code>group</code> →
+<code>summarise</code> → <code>arrange</code> pipeline you used in
+<code>renderTable()</code>. Then add code for the plot:</p>
+<ul><li>
+<code>ggplot()</code> to create the plot and map variables to the x
+and y axes, using <code>reorder()</code> to control the order of
+categories.</li>
+<li>
+<code>geom_col()</code> to draw a bar chart.</li>
+<li>
+<code>coord_flip()</code> to flip the axes so long labels are easier
+to read.</li>
+<li>
+<code>labs()</code> to add axis labels.</li>
+<li>
+<code>theme_minimal()</code> to apply a simple theme and increase
+the text size.</li>
 </ul><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -492,14 +506,14 @@ updating when the user changes a selection.</p>
 <p>Take a moment to compare the code inside <code>renderTable()</code>
 and <code>renderPlot()</code>. What parts of the logic appear in both
 places?</p>
-<div id="discussion1" class="callout discussion">
+<div id="notice-the-pattern" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div class="callout-inner">
+<div id="notice-the-pattern" class="callout-inner">
+<h3 class="callout-title">Notice the pattern</h3>
 <div class="callout-content">
-<p>Discussion: Notice the pattern</p>
 <p>Take a close look at the server code. Notice that each output repeats
 a similar pattern to prepare the data: filter, group, summarise, and
 arrange.</p>
@@ -596,15 +610,15 @@ reuse it in multiple outputs. For example, the table output becomes:</p>
 <p>Writing the server logic in terms of <code>reactive()</code>
 expressions means we can reuse the summary_data reactive value
 elsewhere, like in the server logic for the plot output.</p>
-<div id="challenge2" class="callout challenge">
+<div id="reuse-summary_data-in-the-plot-output" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="reuse-summary_data-in-the-plot-output" class="callout-inner">
+<h3 class="callout-title">Reuse <code>summary_data()</code> in the plot
+output</h3>
 <div class="callout-content">
-<p>Challenge: Reuse <code>summary_data()</code> in the plot output</p>
 <p>Modify the app by replacing the data preparation code inside the plot
 with the reactive expression <code>summary_data()</code>.</p>
 </div>
@@ -615,7 +629,7 @@ with the reactive expression <code>summary_data()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>One possible solution is shown below.</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -646,20 +660,21 @@ with the reactive expression <code>summary_data()</code>.</p>
 </div>
 </div>
 </div>
-<p>Before introducing reactive expressions, we extended the app by
-adding a second output and placing all of the required data processing
-directly inside renderPlot(). While this approach works, it required
-repeating the same data preparation steps—filtering, grouping,
-summarising, and arranging—inside multiple rendering functions.</p>
+<p>Before introducing reactive expressions, we added to the app by
+creating a second output and placing all of the required data processing
+directly inside <code>renderPlot()</code>.</p>
+<p>While this approach works, it required repeating the same data
+preparation steps—filtering, grouping, summarising, and arranging—inside
+multiple rendering functions.</p>
 <p>This duplication makes apps harder to maintain as they grow. Any
 change to the data preparation logic would need to be made in every
-output that depends on it. By using reactive() expressions, we can
-compute shared results once and reuse them across multiple outputs,
-making our server code simpler, clearer, and easier to extend.</p>
-<p>From here, people usually look at improving layout and styling,
-organising larger apps with modules, or figuring out how to share their
-app. We didn’t cover those today, but now you have the foundation to
-explore them.</p>
+output that depends on it.</p>
+<p>By using <code>reactive()</code> expressions, we can compute shared
+results once and reuse them across multiple outputs, making our server
+code simpler, clearer, and easier to extend.</p>
+<p>From here, people usually look at adding extensions, improving layout
+and styling, organising larger apps with modules, or figuring out how to
+share their app.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -667,8 +682,9 @@ explore them.</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Reactivity is central to how Shiny apps update in response to
-changes in user input.</li>
+<ul><li>
+<strong>Reactivity</strong> is central to how Shiny apps update in
+response to changes in user input.</li>
 <li>Code inside <code>render*()</code> functions is automatically re‑run
 when its reactive dependencies change.</li>
 <li>Repeating the same data preparation logic across multiple outputs
@@ -744,8 +760,8 @@ any links that you are not going to use.
   "url": "https://erinmgraham.github.io/qcif-r-shiny/04-reactives.html",
   "identifier": "https://erinmgraham.github.io/qcif-r-shiny/04-reactives.html",
   "dateCreated": "2026-03-24",
-  "dateModified": "2026-06-04",
-  "datePublished": "2026-07-10"
+  "dateModified": "2026-07-13",
+  "datePublished": "2026-07-13"
 }
 
   </script><script>

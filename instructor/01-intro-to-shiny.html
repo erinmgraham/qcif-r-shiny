@@ -254,6 +254,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-app-extention.html">6. Bonus: Extending your Shiny App</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -312,7 +321,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Shiny</h1>
-        <p>Last updated on 2026-06-04 |
+        <p>Last updated on 2026-07-13 |
 
         <a href="https://github.com/erinmgraham/qcif-r-shiny/edit/main/episodes/01-intro-to-shiny.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -350,9 +359,7 @@
 </div>
 <section><h2 class="section-heading" id="introduction-to-shiny">Introduction to Shiny<a class="anchor" aria-label="anchor" href="#introduction-to-shiny"></a></h2>
 <hr class="half-width"><p>As researchers, we often want to make our work more accessible to a
-wider audience. While tools such as <a href="https://quarto.org/" class="external-link">Quarto</a> allow us to create rich static
-reports, they do not allow others to interact with our data and
-visualisations without learning R.</p>
+wider audience.</p>
 <p>Shiny is an R package that makes it possible to build interactive web
 applications. These apps allow users to explore data, adjust inputs, and
 see results update in real time — without writing any R code
@@ -363,50 +370,55 @@ begin building one step by step.</p>
 shiny components from Dean Attali’s book’}</p>
 <p>R Shiny apps are written in R code and consist of a user interface
 and the server. The <strong>user interface</strong> (ui) lets us create
-what the user will see and interact with. The <strong>server</strong>
-builds the outputs that react and update based on user inputs. Shiny
-apps run on an R process that serves content to a web browser. In
-practice, this may be a local R session, shinyapps.io, <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
+what the user will see and interact with.</p>
+<p>The <strong>server</strong> builds the outputs that react and update
+based on user inputs. Shiny apps run on an R Server that delivers
+rendered content to a web browser.</p>
+<p>In practice, this may be a local R session, shinyapps.io, <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
 Server</a>, or RStudio Connect.</p>
-<div id="discussion1" class="callout discussion">
+<div id="example-shiny-app-websites" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div class="callout-inner">
+<div id="example-shiny-app-websites" class="callout-inner">
+<h3 class="callout-title">Example Shiny app websites</h3>
 <div class="callout-content">
-<p>Discussion: Example Shiny app websites</p>
 <p>Shiny apps can range from simple interactive visualisations to
 complex applications used in production.</p>
 <p>Take some time to explore these example apps built with Shiny.</p>
-<ul><li><p>Posit <a href="https://shiny.posit.co/r/gallery/" class="external-link">Shiny
-Gallery</a>.</p></li>
-<li><p>2024 Winners of the annual <a href="https://posit.co/blog/winners-of-the-2024-shiny-contest/" class="external-link">R Shiny
-Competition</a>.</p></li>
-<li><p>What do you like about them?</p></li>
-<li><p>What do you not like about them?</p></li>
-<li><p>What possibilities do you see for your own work?</p></li>
+<ul><li>Posit <a href="https://shiny.posit.co/r/gallery/" class="external-link">Shiny
+Gallery</a>
+</li>
+<li>2024 Winners of the annual <a href="https://posit.co/blog/winners-of-the-2024-shiny-contest/" class="external-link">R Shiny
+Competition</a>
+<ul><li>What do you like about them?</li>
+<li>What do you not like about them?</li>
+<li>What possibilities do you see for your own work?</li>
+</ul></li>
 </ul></div>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="creating-a-shiny-app">Creating a Shiny app<a class="anchor" aria-label="anchor" href="#creating-a-shiny-app"></a></h2>
-<hr class="half-width"><p>Let’s start by creating a new project called <code>shiny-qcif</code>.
-Within that project, create a folder called data and download or move
-the lesson data into that folder. Next, create a new script called
-<code>app.R</code> and save it in the same directory as your
-<code>.Rproj</code> file.</p>
+<hr class="half-width"><p>Let’s start by creating a new project called
+<code>shiny-qcif</code>.</p>
+<p>Within that project, create a folder called <strong>data</strong> and
+download or move the lesson data into that folder.</p>
+<p>Next, create a new script called <code>app.R</code> and save it in
+the same directory as your <code>.Rproj</code> file.</p>
 <p>Note a Shiny project can also be created in RStudio using the
 <code>New Project Wizard</code> and selecting
 <code>Shiny Application</code>. This creates a project with a pre-built
 Shiny app in an <code>app.R</code> script. While this is a quick way to
 get started once you are familiar with Shiny, here we will build the app
 from scratch so learners can see each part as it is introduced.</p>
-<div id="callout1" class="callout">
+<div id="shiny-files" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div class="callout-inner">
+<div id="shiny-files" class="callout-inner">
+<h3 class="callout-title">Shiny files</h3>
 <div class="callout-content">
 <p>Although you can put a Shiny app into any type of file initially,
 once you decide to use it with a <a href="https://posit.co/products/open-source/shinyserver/" class="external-link">Shiny
@@ -428,9 +440,10 @@ return to this later.</p>
 </div>
 </section><section><h2 class="section-heading" id="the-anatomy-of-a-shiny-app">The Anatomy of a Shiny app<a class="anchor" aria-label="anchor" href="#the-anatomy-of-a-shiny-app"></a></h2>
 <hr class="half-width"><p>A Shiny app has three essential parts: a user interface, a server,
-and a call to shinyApp() that connects them. Most apps also include
-setup code at the top of the script to load packages and prepare data.
-Shown here together, code below will run and produce a blank app. We
+and a call to shinyApp() that connects them.</p>
+<p>Most apps also include setup code at the top of the script to load
+packages and prepare data.</p>
+<p>Shown here together, code below will run and produce a blank app. We
 will introduce each part in turn and explain how they work.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -640,8 +653,8 @@ any links that you are not going to use.
   "url": "https://erinmgraham.github.io/qcif-r-shiny/instructor/01-intro-to-shiny.html",
   "identifier": "https://erinmgraham.github.io/qcif-r-shiny/instructor/01-intro-to-shiny.html",
   "dateCreated": "2026-03-24",
-  "dateModified": "2026-06-04",
-  "datePublished": "2026-07-10"
+  "dateModified": "2026-07-13",
+  "datePublished": "2026-07-13"
 }
 
   </script><script>
