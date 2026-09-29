@@ -35,9 +35,9 @@ ui <- fluidPage(
   "Hello world"                                       # this is new!
 )
 ```
-```output
+
 ![](fig/02_shiny_app_hello_crop.png){alt='Mostly blank white page displaying the text hello world'}
-```
+
 
 Any text placed in the UI is displayed on the page. Behind the scenes, Shiny is still generating HTML to describe that content.
 
@@ -64,9 +64,7 @@ ui <- fluidPage(
   h3("The HTML <h3> tag defines a third-level heading in a web document"),
 )
 ```
-```output
 ![](fig/02_shiny_app_ui_ex_crop.png){alt='Screenshot of app with different styles of html tags'}
-```
 
 In the rendered app, the text now appears with different visual emphasis. Although we are calling R functions, each of these function calls adds one corresponding HTML element to the page, which the browser then renders in the order they appear.
 
