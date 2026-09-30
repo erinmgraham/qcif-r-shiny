@@ -56,7 +56,7 @@ spc_tbl_ [399 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
   ..   industry = col_character(),
   ..   industry_count_2041 = col_double()
   .. )
- - attr(*, "problems")=<pointer: 0x55a94b362600> 
+ - attr(*, "problems")=<pointer: 0x5616b96b1e10> 
 ```
 
 ::::::::::::::::::::::::::::::::::::: challenge
